@@ -3,18 +3,14 @@ package pckg;
 public class Employee {
 	
 	private final String name;
-	private final String ssn; //social security number, not used
-	private String address; //not used
 	private double taxes; // Goverment's cut, between 0.00-1.00
-	private double bankAccount = 1500; 
+	private double bankBalance = 1500; 
 	private int salary;
 	
 	private Department department;
 	
-	public Employee(String name, String ssn, String address, int salary, double taxes) {
+	public Employee(String name, int salary, double taxes) {
 		this.name = name;
-		this.ssn = ssn;
-		this.address = address;
 		this.salary = salary;
 		this.taxes = taxes;
 	}
@@ -36,7 +32,8 @@ public class Employee {
 	//BANK ACCOUNT RELATED METHODS
 	
 	private void addToBankAccount() {
-		this.bankAccount += this.salary*taxes;
+		double afterTaxes = Math.round((this.salary*taxes)*100)/100;
+		this.bankBalance += afterTaxes;
 	}
 	
 	public void employeePayday() {
@@ -47,5 +44,12 @@ public class Employee {
 		return salary;
 	}
 	
+	public double getBalance() {
+		return bankBalance;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
 	
 }

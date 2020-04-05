@@ -3,36 +3,44 @@ package pckg;
 import java.util.ArrayList;
 
 public class Department {
+	
+	private String name;
 	private Employee head; //Head of the department
 	private int bankBalance = 1000000;
 	private String location;
 	private ArrayList<Employee> employees = new ArrayList();
 	
-	public Department(Employee head, String location) {
+	private final Company company;
+	
+	public Department(String name, Employee head, String location, Company company) {
+		this.name = name;
 		this.head = head;
 		this.location = location;
+		this.hireEmployee(head);
+		this.company = company;
 	}
 	
 	//BANKBALANCE RELATED METHODS
 	
 	//You could just have setBalance(int balance), but I find this better.
 	private void takeFromBalance(int amount) {
-		bankBalance -=amount;
+		this.bankBalance -=amount;
 	}
 	
 	//You could just have setBalance(int balance), but I find this better.	
 	private void addToBalance(int amount) {
-		bankBalance +=amount;
+		this.bankBalance +=amount;
 	}
 	
 	public int getBankBalance() {
-		return bankBalance;
+		return this.bankBalance;
 	}
 	
 	//This should have some kind of sanitation
 	public void departmentPayday() {
 		for(Employee e : employees) {
 			this.takeFromBalance(e.getSalary());
+			e.employeePayday();
 		}
 	}
 		
@@ -44,12 +52,12 @@ public class Department {
 	
 	//EMPLOYEE RELATED METHODS
 	
-	private void hireEmployee(Employee employee) {
+	public void hireEmployee(Employee employee) {
 		employees.add(employee);
 		employee.changeDepartment(this);
 	}
 	
-	private void fireEmployee(Employee employee) {
+	public void fireEmployee(Employee employee) {
 		employees.remove(employee);
 		employee.changeDepartment(null);
 		
@@ -59,4 +67,11 @@ public class Department {
 		}
 	}
 	
+	public ArrayList<Employee> listOfEmployees() {
+		return employees;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
 }

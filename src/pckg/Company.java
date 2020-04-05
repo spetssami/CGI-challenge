@@ -8,30 +8,30 @@ public class Company {
 	private int totalBalance;
 	private ArrayList<Department> departments = new ArrayList();
 	private Employee ceo;
-//	Employee ceo = new Employee("Roope Ankka", "01.01.1857", "Rahasäiliö, Ankkalinna", "FI1234567890123456", 100000);
 	
-	public Company(String name, Employee ceo) {
+	public Company(String name, Employee ceo, String location) {
 		this.name = name;
 		this.ceo = ceo;
-		createHQ(ceo, "Ankkalinna");
+		createHQ(ceo, location);
 	}
 	
 	
 	private void createHQ(Employee ceo, String location){
 		
-		createDepartment(ceo, location);
+		createDepartment("HQ", ceo, location);
 	}
 	
-	private void createDepartment(Employee head, String location) {
-		Department dep = new Department(head, location);
-		addNewDepartment(dep);
+	public Department createDepartment(String name, Employee head, String location) {
+		Department d = new Department(name, head, location, this);
+		addNewDepartment(d);
+		return d;
 	}
 	
 	private void addNewDepartment(Department department) {
 		departments.add(department);
 	}
 	
-	private void companyPayday() {
+	public void companyPayday() {
 		for(Department dep: departments) {
 			dep.departmentPayday();
 		}
@@ -42,6 +42,16 @@ public class Company {
 		this.totalBalance = 0;
 		for(Department d : departments) {
 			this.totalBalance += d.getBankBalance();
+		}
+	}
+	
+	public int getCompanyBalance() {
+		return this.totalBalance;
+	}
+	
+	public void listDepartments() {
+		for(Department i : departments) {
+			System.out.println(i.getName());
 		}
 	}
 }
